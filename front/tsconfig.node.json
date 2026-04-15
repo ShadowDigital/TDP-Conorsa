@@ -1,0 +1,39 @@
+{
+  "compilerOptions": {
+    // Archivo temporal para acelerar las compilaciones incrementales de Node guardando caché
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.node.tsbuildinfo",
+    // Versión de ECMAScript objetivo para los scripts de Node
+    "target": "ES2023",
+    // Librerías base permitidas en el entorno de Node (No hay DOM aquí, ya que corre en servidor/terminal)
+    "lib": ["ES2023"],
+    // Sistema de módulos a utilizar (ESNext mantiene la sintaxis import/export)
+    "module": "ESNext",
+    // Carga los tipos específicos de Node.js (ej. process, env, fs, path)
+    "types": ["node"],
+    // Se salta la comprobación de tipos dentro de la carpeta node_modules (mejora rendimiento)
+    "skipLibCheck": true,
+
+    /* Bundler mode (Modo de empaquetado) */
+    // Delega la resolución de los módulos al empaquetador (Vite)
+    "moduleResolution": "bundler",
+    // Permite importar usando la extensión .ts
+    "allowImportingTsExtensions": true,
+    // Obliga a importar tipos usando explícitamente 'import type'
+    "verbatimModuleSyntax": true,
+    // Trata todos los archivos como módulos asilados
+    "moduleDetection": "force",
+    // Indica a TypeScript que no genere archivos finales
+    "noEmit": true,
+
+    /* Linting (Reglas estrictas de calidad) */
+    // Activa reglas estrictas para el código Node (vite.config.ts)
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "erasableSyntaxOnly": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedSideEffectImports": true
+  },
+  // Esta configuración es exclusiva para el archivo de configuración de Vite (corre en entorno Node)
+  "include": ["vite.config.ts"]
+}

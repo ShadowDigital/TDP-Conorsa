@@ -1,0 +1,48 @@
+{
+  "compilerOptions": {
+    // Archivo temporal para acelerar las compilaciones incrementales guardando caché
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
+    // Versión de ECMAScript a la que el código será transpilado (moderno por defecto en Vite)
+    "target": "ES2023",
+    // Asegura el comportamiento estándar de ES para los campos de clase (class fields)
+    "useDefineForClassFields": true,
+    // Tipos de librerías globales disponibles (DOM para el navegador, Iterable para arrays/maps)
+    "lib": ["ES2023", "DOM", "DOM.Iterable"],
+    // Sistema de módulos a utilizar (ESNext mantiene la sintaxis moderna import/export)
+    "module": "ESNext",
+    // Incluye las definiciones de tipos globales exclusivas de Vite (ej. import.meta.env)
+    "types": ["vite/client"],
+    // Se salta la comprobación de tipos dentro de la carpeta node_modules (mejora radicalmente el rendimiento)
+    "skipLibCheck": true,
+
+    /* Bundler mode (Modo de empaquetado) */
+    // Le dice a TS que un empaquetador (Vite) se encargará de resolver los módulos (importaciones)
+    "moduleResolution": "bundler",
+    // Permite importar archivos TypeScript explícitamente con su extensión (ej. import './file.ts')
+    "allowImportingTsExtensions": true,
+    // Obliga a importar tipos usando 'import type' (útil para transpilar correctamente con SWC/Esbuild)
+    "verbatimModuleSyntax": true,
+    // Fuerza a tratar cada archivo como un módulo aislado (necesario si no hay exportaciones en el archivo)
+    "moduleDetection": "force",
+    // Evita que TypeScript genere archivos JavaScript de salida (Vite/Esbuild hacen ese trabajo)
+    "noEmit": true,
+    // Transforma JSX a funciones de React (react-jsx es para React 17+, evita importar 'React' en cada archivo)
+    "jsx": "react-jsx",
+
+    /* Linting (Reglas estrictas de calidad) */
+    // Activa la suite completa de reglas estrictas (incluye null checks, any implícitos, etc.)
+    "strict": true,
+    // Muestra error si se declaran variables locales que jamás se utilizan
+    "noUnusedLocals": true,
+    // Muestra error si hay parámetros en una función que no son utilizados en su interior
+    "noUnusedParameters": true,
+    // Asegura que solo se está compilando código que pueda ser borrado en el build step (tipos)
+    "erasableSyntaxOnly": true,
+    // Previene errores en sentencias 'switch' asegurando que cada 'case' tenga un 'break' o 'return'
+    "noFallthroughCasesInSwitch": true,
+    // Alerta sobre importaciones que solo causan "efectos secundarios" sin utilizar dependencias claras
+    "noUncheckedSideEffectImports": true
+  },
+  // Solo los archivos dentro de la carpeta 'src' serán evaluados por esta configuración
+  "include": ["src"]
+}
