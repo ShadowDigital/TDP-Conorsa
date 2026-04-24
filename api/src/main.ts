@@ -7,10 +7,28 @@ import { GlobalExceptionFilter } from './common/filters/global-exception.filter'
 
 async function bootstrap() {
     const app = await NestFactory.create(AppModule);
-    // Enable CORS for the React frontend
+    // Enable CORS for local frontends and allow credentials
     app.enableCors({
-        origin: ['http://localhost:5173', 'http://localhost:4173'],
+        origin: (origin, callback) => {
+            // Allow requests with no origin (like mobile apps, curl requests)
+            if (!origin) return callback(null, true);
+            
+            // Allow localhost and development origins
+            const allowedOrigins = [
+                'http://localhost:5173',
+                'http://localhost:3000',
+                'http://127.0.0.1:5173',
+                'http://127.0.0.1:3000',
+            ];
+            
+            if (allowedOrigins.includes(origin)) {
+                callback(null, true);
+            } else {
+                callback(new Error('Not allowed by CORS'));
+            }
+        },
         credentials: true,
+        methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     });
     // Define un prefijo global a las rutas
     app.setGlobalPrefix('api/v1');

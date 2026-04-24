@@ -83,71 +83,71 @@ export function ProfilePage() {
     <MainLayout title="Mi Perfil">
       <div className="max-w-2xl mx-auto">
         <div className="mb-6">
-          <h1 className="text-2xl font-bold text-white">Mi Perfil</h1>
-          <p className="text-slate-400 text-sm">Gestiona tu información personal y contraseña.</p>
+          <h1 className="text-2xl font-bold text-slate-900">Mi Perfil</h1>
+          <p className="text-slate-500 text-sm">Gestiona tu información personal y contraseña.</p>
         </div>
 
         {error && (
-          <div className="mb-6 bg-red-500/10 border border-red-500/20 text-red-400 px-4 py-3 rounded-xl text-sm">
+          <div className="mb-6 bg-red-50 border border-red-100 text-red-600 px-4 py-3 rounded-xl text-sm">
             {error}
           </div>
         )}
 
         {success && (
-          <div className="mb-6 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 px-4 py-3 rounded-xl text-sm">
+          <div className="mb-6 bg-emerald-50 border border-emerald-100 text-emerald-600 px-4 py-3 rounded-xl text-sm">
             {success}
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="bg-slate-900/50 border border-slate-700/50 rounded-2xl p-6 lg:p-8 space-y-6">
+        <form onSubmit={handleSubmit} className="bg-white border border-slate-200 rounded-2xl p-6 lg:p-8 space-y-6 shadow-sm">
           <div className="grid gap-6">
             {/* ID (Read Only) */}
             <div>
-              <label className="block text-sm font-medium text-slate-400 mb-1.5 ml-1">ID de Usuario</label>
+              <label className="block text-sm font-medium text-slate-600 mb-1.5 ml-1">ID de Usuario</label>
               <input
                 type="text"
                 readOnly
                 value={user?.id || ''}
-                className="w-full bg-slate-950/30 border border-slate-800 rounded-xl px-4 py-2.5 text-slate-500 cursor-not-allowed outline-none font-mono text-sm"
+                className="w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-2.5 text-slate-400 cursor-not-allowed outline-none font-mono text-sm"
               />
             </div>
 
             {/* Nombre */}
             <div>
-              <label className="block text-sm font-medium text-slate-400 mb-1.5 ml-1">Nombre Completo</label>
+              <label className="block text-sm font-medium text-slate-600 mb-1.5 ml-1">Nombre Completo</label>
               <input
                 type="text"
                 required
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                className="w-full bg-slate-950/50 border border-slate-700 focus:border-brand-500 focus:ring-1 focus:ring-brand-500 rounded-xl px-4 py-2.5 text-white transition-all outline-none"
+                className="w-full bg-slate-50 border border-slate-200 focus:border-brand-500 focus:ring-1 focus:ring-brand-500 rounded-xl px-4 py-2.5 text-slate-900 transition-all outline-none placeholder-slate-400"
                 placeholder="Tu nombre completo"
               />
             </div>
 
             {/* Email */}
             <div>
-              <label className="block text-sm font-medium text-slate-400 mb-1.5 ml-1">Correo Electrónico</label>
+              <label className="block text-sm font-medium text-slate-600 mb-1.5 ml-1">Correo Electrónico</label>
               <input
                 type="email"
                 required
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                className="w-full bg-slate-950/50 border border-slate-700 focus:border-brand-500 focus:ring-1 focus:ring-brand-500 rounded-xl px-4 py-2.5 text-white transition-all outline-none"
+                className="w-full bg-slate-50 border border-slate-200 focus:border-brand-500 focus:ring-1 focus:ring-brand-500 rounded-xl px-4 py-2.5 text-slate-900 transition-all outline-none placeholder-slate-400"
                 placeholder="tu@email.com"
               />
             </div>
 
             {/* Password */}
             <div>
-              <label className="block text-sm font-medium text-slate-400 mb-1.5 ml-1">
-                Nueva Contraseña <span className="text-xs text-slate-500">(dejar vacío para mantener actual)</span>
+              <label className="block text-sm font-medium text-slate-600 mb-1.5 ml-1">
+                Nueva Contraseña <span className="text-xs text-slate-400">(dejar vacío para mantener actual)</span>
               </label>
               <input
                 type="password"
                 value={formData.password}
                 onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                className="w-full bg-slate-950/50 border border-slate-700 focus:border-brand-500 focus:ring-1 focus:ring-brand-500 rounded-xl px-4 py-2.5 text-white transition-all outline-none"
+                className="w-full bg-slate-50 border border-slate-200 focus:border-brand-500 focus:ring-1 focus:ring-brand-500 rounded-xl px-4 py-2.5 text-slate-900 transition-all outline-none placeholder-slate-400"
                 placeholder="••••••••"
               />
             </div>
@@ -157,7 +157,7 @@ export function ProfilePage() {
             <button
               type="submit"
               disabled={isSaving}
-              className="w-full bg-brand-500 hover:bg-brand-600 disabled:opacity-50 disabled:cursor-not-allowed text-white font-medium py-2.5 rounded-xl transition-colors text-sm shadow-lg shadow-brand-500/20 flex items-center justify-center gap-2"
+              className="w-full bg-brand-600 hover:bg-brand-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-medium py-2.5 rounded-xl transition-colors text-sm shadow-lg shadow-brand-500/20 flex items-center justify-center gap-2"
             >
               {isSaving ? (
                 <>

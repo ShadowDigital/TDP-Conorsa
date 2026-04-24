@@ -14,5 +14,5 @@ export function AdminRoute() {
 
   const isAdmin = user?.roles?.includes('admin');
 
-  return isAdmin ? <Outlet /> : <Navigate to="/welcome" replace />;
+  return isAdmin ? <Outlet /> : <Navigate to="/admin/welcome" replace />;
 }

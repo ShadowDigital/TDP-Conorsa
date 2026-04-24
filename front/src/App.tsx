@@ -22,16 +22,14 @@ function App() {
 
           {/* Protected */}
           <Route element={<PrivateRoute />}>
-            <Route path="/welcome" element={<WelcomePage />} />
-            <Route path="/profile" element={<ProfilePage />} />
-            
-            {/* Users Management */}
-            <Route path="/users" element={<UsersPage />} />
-            
+            <Route path="/admin/welcome" element={<WelcomePage />} />
+            <Route path="/admin/profile" element={<ProfilePage />} />
+
             {/* Admin only */}
             <Route element={<AdminRoute />}>
-              <Route path="/users/new" element={<UserFormPage />} />
-              <Route path="/users/:id/edit" element={<UserFormPage />} />
+              <Route path="/admin/users" element={<UsersPage />} />
+              <Route path="/admin/users/new" element={<UserFormPage />} />
+              <Route path="/admin/users/:id/edit" element={<UserFormPage />} />
             </Route>
           </Route>
 

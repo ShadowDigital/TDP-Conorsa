@@ -9,6 +9,92 @@ El repositorio está dividido en dos directorios principales:
 - `api/`: Backend desarrollado con NestJS (Node.js).
 - `front/`: Frontend desarrollado con React, Vite y Tailwind CSS.
 
+### Árbol de Carpetas
+
+```
+TDP/
+├── INSTRUCCIONES_GITHUB.md
+├── README.md
+│
+├── api/                          # Backend - NestJS
+│   ├── eslint.config.mjs
+│   ├── nest-cli.json
+│   ├── package.json
+│   ├── README.md
+│   ├── tsconfig.build.json
+│   ├── tsconfig.json
+│   ├── public/
+│   │   ├── index.html
+│   │   └── assets/
+│   │       └── css/
+│   │           └── styles.css
+│   └── src/
+│       ├── app.controller.ts
+│       ├── app.module.ts
+│       ├── app.service.ts
+│       ├── data-source.ts
+│       ├── main.ts
+│       ├── auth/                 # Módulo de autenticación
+│       │   ├── auth.controller.ts
+│       │   ├── auth.module.ts
+│       │   ├── auth.service.ts
+│       │   ├── decorators/
+│       │   ├── dto/
+│       │   ├── guards/
+│       │   ├── interfaces/
+│       │   └── strategies/
+│       ├── common/               # Módulo compartido
+│       │   ├── common.module.ts
+│       │   ├── dto/
+│       │   └── filters/
+│       ├── migrations/           # Migraciones de BD
+│       ├── seeds/                # Seeds de datos
+│       ├── usuarios/             # Módulo de usuarios
+│       │   ├── usuarios.controller.ts
+│       │   ├── usuarios.module.ts
+│       │   ├── usuarios.service.ts
+│       │   ├── dto/
+│       │   ├── entities/
+│       │   └── interfaces/
+│       └── test/                 # Tests E2E
+│
+└── front/                        # Frontend - React
+    ├── index.html
+    ├── vite.config.ts
+    ├── tailwind.config.js
+    ├── postcss.config.js
+    ├── tsconfig.json
+    ├── package.json
+    ├── README.md
+    ├── public/
+    └── src/
+        ├── main.tsx
+        ├── App.tsx
+        ├── index.css
+        ├── App.css
+        ├── api/                  # Cliente HTTP
+        │   ├── apiClient.ts
+        │   ├── authApi.ts
+        │   └── usersApi.ts
+        ├── components/           # Componentes reutilizables
+        │   ├── AdminRoute.tsx
+        │   ├── MainLayout.tsx
+        │   └── PrivateRoute.tsx
+        ├── context/              # Context API
+        │   └── AuthContext.tsx
+        ├── pages/                # Páginas
+        │   ├── LoginPage.tsx
+        │   ├── ProfilePage.tsx
+        │   ├── WelcomePage.tsx
+        │   ├── public/
+        │   │   ├── EntradaDatosPage.tsx
+        │   │   └── HomePage.tsx
+        │   └── users/
+        │       ├── UserFormPage.tsx
+        │       └── UsersPage.tsx
+        └── assets/               # Recursos estáticos
+```
+
 ---
 
 ## 🛠️ Tecnologías Utilizadas
