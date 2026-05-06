@@ -8,6 +8,9 @@ import { join } from 'path';
 import { AuthModule } from './auth/auth.module';
 import { CommonModule } from './common/common.module';
 import { UsuariosModule } from './usuarios/usuarios.module';
+import { AsistenciaModule } from './asistencia/asistencia.module';
+import { MaterialesModule } from './materiales/materiales.module';
+import { ProductosModule } from './productos/productos.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
@@ -22,7 +25,7 @@ import { AppService } from './app.service';
             username: process.env.DB_USER,
             password: process.env.DB_PASS,
             autoLoadEntities: true,
-            synchronize: true,
+            synchronize: false,
         }),
         ServeStaticModule.forRoot({
             rootPath: join(__dirname, '..', 'public'),
@@ -31,6 +34,9 @@ import { AppService } from './app.service';
         CommonModule,
         AuthModule,
         UsuariosModule,
+        AsistenciaModule,
+        MaterialesModule,
+        ProductosModule,
     ],
     controllers: [AppController],
     providers: [AppService],

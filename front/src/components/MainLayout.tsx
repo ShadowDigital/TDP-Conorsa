@@ -9,7 +9,10 @@ import {
   HiChevronDown,
   HiOutlineUser,
   HiOutlineArrowRightStartOnRectangle,
-  HiOutlineWindow
+  HiOutlineWindow,
+  HiOutlineClock,
+  HiOutlineCube,
+  HiOutlineRectangleGroup
 } from 'react-icons/hi2';
 
 interface MainLayoutProps {
@@ -51,6 +54,24 @@ export function MainLayout({ children, title = 'Dashboard General' }: MainLayout
       path: '/admin/welcome',
       icon: <HiOutlineWindow className="w-5 h-5" />,
       show: true
+    },
+    {
+      name: 'Control de Horas',
+      path: '/admin/asistencia',
+      icon: <HiOutlineClock className="w-5 h-5" />,
+      show: true
+    },
+    {
+      name: 'Materiales',
+      path: '/admin/materials',
+      icon: <HiOutlineCube className="w-5 h-5" />,
+      show: user?.roles?.includes('admin')
+    },
+    {
+      name: 'Productos',
+      path: '/admin/products',
+      icon: <HiOutlineRectangleGroup className="w-5 h-5" />,
+      show: user?.roles?.includes('admin')
     },
     {
       name: 'Usuarios',

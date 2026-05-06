@@ -9,6 +9,11 @@ import { WelcomePage } from './pages/WelcomePage';
 import { UsersPage } from './pages/users/UsersPage';
 import { UserFormPage } from './pages/users/UserFormPage';
 import { ProfilePage } from './pages/ProfilePage';
+import { AsistenciaPage } from './pages/admin/AsistenciaPage';
+import { MaterialsPage } from './pages/admin/MaterialsPage';
+import { MaterialFormPage } from './pages/admin/MaterialFormPage';
+import { ProductsPage } from './pages/admin/ProductsPage';
+import { ProductFormPage } from './pages/admin/ProductFormPage';
 
 function App() {
   return (
@@ -23,6 +28,7 @@ function App() {
           {/* Protected */}
           <Route element={<PrivateRoute />}>
             <Route path="/admin/welcome" element={<WelcomePage />} />
+            <Route path="/admin/asistencia" element={<AsistenciaPage />} />
             <Route path="/admin/profile" element={<ProfilePage />} />
 
             {/* Admin only */}
@@ -30,6 +36,15 @@ function App() {
               <Route path="/admin/users" element={<UsersPage />} />
               <Route path="/admin/users/new" element={<UserFormPage />} />
               <Route path="/admin/users/:id/edit" element={<UserFormPage />} />
+
+              {/* Catálogo / Inventario */}
+              <Route path="/admin/materials" element={<MaterialsPage />} />
+              <Route path="/admin/materials/new" element={<MaterialFormPage />} />
+              <Route path="/admin/materials/:id/edit" element={<MaterialFormPage />} />
+              
+              <Route path="/admin/products" element={<ProductsPage />} />
+              <Route path="/admin/products/new" element={<ProductFormPage />} />
+              <Route path="/admin/products/:id/edit" element={<ProductFormPage />} />
             </Route>
           </Route>
 
