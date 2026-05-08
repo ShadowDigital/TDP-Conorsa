@@ -33,3 +33,8 @@ export const registrarAsistencia = (tipo: TipoAsistencia, motivo_pausa?: string)
 export const getEstadoHoy = () => {
   return api.get<AsistenciaEstado>('/asistencia/estado-hoy');
 };
+
+export const generarInforme = async (desde: string, hasta: string): Promise<Blob> => {
+  const response = await api.post<Blob>('/asistencia/informe', { desde, hasta }, { responseType: 'blob' });
+  return response.data;
+};

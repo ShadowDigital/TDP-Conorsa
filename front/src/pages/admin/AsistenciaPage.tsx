@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { MainLayout } from '../../components/MainLayout';
 import { registrarAsistencia, getEstadoHoy, TipoAsistencia, type AsistenciaEstado } from '../../api/asistenciaApi';
-import { HiOutlineClock, HiOutlinePlay, HiOutlinePause, HiOutlineStop, HiOutlineCheckCircle, HiOutlineExclamationCircle } from 'react-icons/hi2';
+import { HiOutlineClock, HiOutlinePlay, HiOutlinePause, HiOutlineStop } from 'react-icons/hi2';
 
 const MOTIVOS_PAUSA = [
   'Descanso/Café',
@@ -190,12 +190,11 @@ export function AsistenciaPage() {
                         {formatTime(r.fecha_hora)}
                       </td>
                       <td className="px-6 py-4">
-                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${
-                          r.tipo === TipoAsistencia.INICIO_JORNADA ? 'bg-emerald-50 text-emerald-700 border-emerald-100' :
-                          r.tipo === TipoAsistencia.FIN_JORNADA ? 'bg-slate-100 text-slate-700 border-slate-200' :
-                          r.tipo === TipoAsistencia.PAUSA ? 'bg-amber-50 text-amber-700 border-amber-100' :
-                          'bg-indigo-50 text-indigo-700 border-indigo-100'
-                        }`}>
+                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${r.tipo === TipoAsistencia.INICIO_JORNADA ? 'bg-emerald-50 text-emerald-700 border-emerald-100' :
+                            r.tipo === TipoAsistencia.FIN_JORNADA ? 'bg-slate-100 text-slate-700 border-slate-200' :
+                              r.tipo === TipoAsistencia.PAUSA ? 'bg-amber-50 text-amber-700 border-amber-100' :
+                                'bg-indigo-50 text-indigo-700 border-indigo-100'
+                          }`}>
                           {r.tipo.replace('_', ' ').toUpperCase()}
                         </span>
                       </td>
@@ -217,17 +216,16 @@ export function AsistenciaPage() {
           <div className="bg-white rounded-3xl w-full max-w-sm p-8 shadow-2xl animate-in fade-in zoom-in duration-200">
             <h3 className="text-xl font-bold text-slate-900 mb-2">Seleccionar motivo</h3>
             <p className="text-slate-500 text-sm mb-6">Indica por qué estás iniciando una pausa.</p>
-            
+
             <div className="space-y-2 mb-8">
               {MOTIVOS_PAUSA.map((m) => (
                 <button
                   key={m}
                   onClick={() => setMotivoSeleccionado(m)}
-                  className={`w-full text-left px-4 py-3 rounded-xl border transition-all ${
-                    motivoSeleccionado === m 
-                      ? 'bg-brand-50 border-brand-200 text-brand-600 font-medium' 
+                  className={`w-full text-left px-4 py-3 rounded-xl border transition-all ${motivoSeleccionado === m
+                      ? 'bg-brand-50 border-brand-200 text-brand-600 font-medium'
                       : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'
-                  }`}
+                    }`}
                 >
                   {m}
                 </button>

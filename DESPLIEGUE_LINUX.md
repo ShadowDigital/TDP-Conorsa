@@ -57,6 +57,8 @@ cp .env.example .env
 nano .env
 ```
 
+En el VPS, si la BD está en el panel de Hostinger, Hay que crear acceso remoto, "Acceso Remoto" y añadir la IP del VPS para que pueda conectar.
+
 Genera el build y arranca con PM2:
 ```bash
 npm run build

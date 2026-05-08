@@ -59,7 +59,14 @@ export function MainLayout({ children, title = 'Dashboard General' }: MainLayout
       name: 'Control de Horas',
       path: '/admin/asistencia',
       icon: <HiOutlineClock className="w-5 h-5" />,
-      show: true
+      show: true,
+      children: [
+        {
+          name: 'Informe',
+          path: '/admin/asistencia/informe',
+          show: user?.roles?.includes('admin')
+        }
+      ]
     },
     {
       name: 'Materiales',
@@ -96,19 +103,40 @@ export function MainLayout({ children, title = 'Dashboard General' }: MainLayout
 
         <nav className="flex-1 overflow-y-auto py-4 px-3 space-y-1">
           {menuItems.map((item) => {
-            const isActive = location.pathname === item.path;
+            const isActive = location.pathname === item.path || item.children?.some(c => location.pathname === c.path);
+            
             return (
-              <Link
-                key={item.path}
-                to={item.path}
-                className={`flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium transition-colors ${isActive
-                  ? 'bg-brand-50 text-brand-600'
-                  : 'text-slate-500 hover:text-brand-600 hover:bg-brand-50/50'
-                  }`}
-              >
-                {item.icon}
-                {item.name}
-              </Link>
+              <div key={item.path} className="space-y-1">
+                <Link
+                  to={item.path}
+                  className={`flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium transition-colors ${isActive
+                    ? 'bg-brand-50 text-brand-600'
+                    : 'text-slate-500 hover:text-brand-600 hover:bg-brand-50/50'
+                    }`}
+                >
+                  {item.icon}
+                  {item.name}
+                </Link>
+                {item.children && item.children.filter(c => c.show).length > 0 && (
+                  <div className="pl-10 space-y-1">
+                    {item.children.filter(c => c.show).map(child => {
+                      const isChildActive = location.pathname === child.path;
+                      return (
+                        <Link
+                          key={child.path}
+                          to={child.path}
+                          className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${isChildActive
+                            ? 'text-brand-600 bg-brand-50/50'
+                            : 'text-slate-500 hover:text-brand-600 hover:bg-brand-50/50'
+                          }`}
+                        >
+                          {child.name}
+                        </Link>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
             );
           })}
         </nav>

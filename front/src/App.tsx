@@ -14,6 +14,7 @@ import { MaterialsPage } from './pages/admin/MaterialsPage';
 import { MaterialFormPage } from './pages/admin/MaterialFormPage';
 import { ProductsPage } from './pages/admin/ProductsPage';
 import { ProductFormPage } from './pages/admin/ProductFormPage';
+import { AsistenciaInformePage } from './pages/admin/AsistenciaInformePage';
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
               <Route path="/admin/users" element={<UsersPage />} />
               <Route path="/admin/users/new" element={<UserFormPage />} />
               <Route path="/admin/users/:id/edit" element={<UserFormPage />} />
+              <Route path="/admin/asistencia/informe" element={<AsistenciaInformePage />} />
 
               {/* Catálogo / Inventario */}
               <Route path="/admin/materials" element={<MaterialsPage />} />
