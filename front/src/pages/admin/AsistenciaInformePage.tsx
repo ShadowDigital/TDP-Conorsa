@@ -11,7 +11,7 @@ export function AsistenciaInformePage() {
 
   const handleDownload = async () => {
     if (!desde || !hasta) return;
-    
+
     // Validación: Hasta no puede ser anterior a Desde
     if (new Date(hasta) < new Date(desde)) {
       setError('La fecha "Hasta" no puede ser anterior a "Desde"');
@@ -22,7 +22,6 @@ export function AsistenciaInformePage() {
     setLoading(true);
     try {
       const blob = await generarInforme(desde, hasta);
-      const today = new Date().toISOString().split('T')[0];
       const fileName = `informe_asistencia_${desde}_a_${hasta}.xlsx`;
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');

@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ServeStaticModule } from '@nestjs/serve-static';
 
@@ -16,16 +16,33 @@ import { AppService } from './app.service';
 
 @Module({
     imports: [
-        ConfigModule.forRoot(),
-        TypeOrmModule.forRoot({
-            type: 'mysql',
-            host: process.env.DB_HOST,
-            port: +(process.env.DB_PORT ?? 3306),
-            database: process.env.DB_NAME,
-            username: process.env.DB_USER,
-            password: process.env.DB_PASS,
-            autoLoadEntities: true,
-            synchronize: false,
+        ConfigModule.forRoot({
+            isGlobal: true,
+            envFilePath: '.env',
+        }),
+        TypeOrmModule.forRootAsync({
+            imports: [ConfigModule],
+            inject: [ConfigService],
+            useFactory: (configService: ConfigService) => {
+                const dbConfig = {
+                    type: 'mysql' as const,
+                    host: configService.get<string>('DB_HOST'),
+                    port: configService.get<number>('DB_PORT', 3306),
+                    database: configService.get<string>('DB_NAME'),
+                    username: configService.get<string>('DB_USER'),
+                    password: configService.get<string>('DB_PASS'),
+                    autoLoadEntities: true,
+                    synchronize: false,
+                };
+
+                // console.log('--- DB CONFIG DEBUG ---');
+                // console.log('Host:', dbConfig.host);
+                // console.log('User:', dbConfig.username);
+                // console.log('Database:', dbConfig.database);
+                // console.log('-----------------------');
+
+                return dbConfig;
+            },
         }),
         ServeStaticModule.forRoot({
             rootPath: join(__dirname, '..', 'public'),
