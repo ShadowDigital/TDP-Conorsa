@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import type { FormEvent } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { 
   HiOutlineKey, 
@@ -13,10 +13,13 @@ import {
 export function LoginPage() {
   const { login, isLoading } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [localErr, setLocalErr] = useState<string | null>(null);
+
+  const from = location.state?.from?.pathname || '/admin/welcome';
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -24,7 +27,7 @@ export function LoginPage() {
     try {
       await login({ email, password });
       // El { replace: true } borra "/login" del historial para que el botón "Atrás" del navegador no lo devuelva al login.
-      navigate('/admin/welcome', { replace: true });
+      navigate(from, { replace: true });
     } catch {
       setLocalErr('Usuario o contraseña incorrectos.');
     }

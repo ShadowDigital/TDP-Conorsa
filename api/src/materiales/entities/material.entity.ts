@@ -24,6 +24,10 @@ export class Material {
   @Column()
   unidad: string;
 
+  @ApiProperty()
+  @Column({ type: 'decimal', precision: 10, scale: 2 })
+  coste: number;
+
   @OneToMany(() => ProductoMaterial, (pm) => pm.material)
   productoMateriales: ProductoMaterial[];
 }

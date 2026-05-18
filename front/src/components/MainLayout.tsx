@@ -12,7 +12,8 @@ import {
   HiOutlineWindow,
   HiOutlineClock,
   HiOutlineCube,
-  HiOutlineRectangleGroup
+  HiOutlineRectangleGroup,
+  HiOutlineDocumentChartBar
 } from 'react-icons/hi2';
 
 interface MainLayoutProps {
@@ -56,17 +57,10 @@ export function MainLayout({ children, title = 'Dashboard General' }: MainLayout
       show: true
     },
     {
-      name: 'Control de Horas',
-      path: '/admin/asistencia',
+      name: 'Informe Asistencia',
+      path: '/admin/asistencia/informe',
       icon: <HiOutlineClock className="w-5 h-5" />,
-      show: true,
-      children: [
-        {
-          name: 'Informe',
-          path: '/admin/asistencia/informe',
-          show: user?.roles?.includes('admin')
-        }
-      ]
+      show: user?.roles?.includes('admin')
     },
     {
       name: 'Materiales',
@@ -78,6 +72,12 @@ export function MainLayout({ children, title = 'Dashboard General' }: MainLayout
       name: 'Productos',
       path: '/admin/products',
       icon: <HiOutlineRectangleGroup className="w-5 h-5" />,
+      show: user?.roles?.includes('admin')
+    },
+    {
+      name: 'Informe Costes',
+      path: '/admin/costes/informe',
+      icon: <HiOutlineDocumentChartBar className="w-5 h-5" />,
       show: user?.roles?.includes('admin')
     },
     {
@@ -103,7 +103,7 @@ export function MainLayout({ children, title = 'Dashboard General' }: MainLayout
 
         <nav className="flex-1 overflow-y-auto py-4 px-3 space-y-1">
           {menuItems.map((item) => {
-            const isActive = location.pathname === item.path || item.children?.some(c => location.pathname === c.path);
+            const isActive = location.pathname === item.path;
             
             return (
               <div key={item.path} className="space-y-1">
@@ -117,25 +117,6 @@ export function MainLayout({ children, title = 'Dashboard General' }: MainLayout
                   {item.icon}
                   {item.name}
                 </Link>
-                {item.children && item.children.filter(c => c.show).length > 0 && (
-                  <div className="pl-10 space-y-1">
-                    {item.children.filter(c => c.show).map(child => {
-                      const isChildActive = location.pathname === child.path;
-                      return (
-                        <Link
-                          key={child.path}
-                          to={child.path}
-                          className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${isChildActive
-                            ? 'text-brand-600 bg-brand-50/50'
-                            : 'text-slate-500 hover:text-brand-600 hover:bg-brand-50/50'
-                          }`}
-                        >
-                          {child.name}
-                        </Link>
-                      );
-                    })}
-                  </div>
-                )}
               </div>
             );
           })}

@@ -14,6 +14,7 @@ export function MaterialFormPage() {
     nombre: '',
     descripcion: '',
     unidad: '',
+    coste: 0,
   });
 
   const [isLoading, setIsLoading] = useState(isEdit);
@@ -26,6 +27,9 @@ export function MaterialFormPage() {
     }
   }, [id, isEdit]);
 
+  /**
+   * Fetches a single material by its ID
+   */
   const fetchMaterial = async (materialId: string) => {
     try {
       const { data } = await getMaterial(materialId);
@@ -34,6 +38,7 @@ export function MaterialFormPage() {
         nombre: data.nombre,
         descripcion: data.descripcion || '',
         unidad: data.unidad,
+        coste: data.coste,
       });
     } catch (err) {
       setError('Error al cargar el material');
@@ -108,7 +113,9 @@ export function MaterialFormPage() {
                   placeholder="Ej. MAT-001"
                 />
               </div>
+            </div>
 
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Unidad */}
               <div>
                 <label className="block text-sm font-medium text-slate-600 mb-1.5 ml-1">Unidad de Medida</label>
@@ -119,6 +126,20 @@ export function MaterialFormPage() {
                   onChange={(e) => setFormData({ ...formData, unidad: e.target.value })}
                   className="w-full bg-slate-50 border border-slate-200 focus:border-brand-500 focus:ring-1 focus:ring-brand-500 rounded-xl px-4 py-2.5 text-slate-900 transition-all outline-none placeholder-slate-400"
                   placeholder="Ej. m2, kg, ud"
+                />
+              </div>
+              {/* Coste */}
+              <div>
+                <label className="block text-sm font-medium text-slate-600 mb-1.5 ml-1">Coste (€/ud de medida)</label>
+                <input
+                  type="number"
+                  required
+                  step="0.01"
+                  min="0"
+                  value={formData.coste}
+                  onChange={(e) => setFormData({ ...formData, coste: Number(e.target.value) })}
+                  className="w-full bg-slate-50 border border-slate-200 focus:border-brand-500 focus:ring-1 focus:ring-brand-500 rounded-xl px-4 py-2.5 text-slate-900 transition-all outline-none placeholder-slate-400"
+                  placeholder="Ej. 10.00"
                 />
               </div>
             </div>

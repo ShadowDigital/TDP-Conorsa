@@ -6,6 +6,7 @@ export interface Material {
   nombre: string;
   descripcion?: string;
   unidad: string;
+  coste: number;
 }
 
 export type CreateMaterialDto = Omit<Material, 'id'>;

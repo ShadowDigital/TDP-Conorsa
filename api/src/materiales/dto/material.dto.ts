@@ -1,4 +1,4 @@
-import { IsString, IsNotEmpty, IsOptional } from 'class-validator';
+import { IsString, IsNotEmpty, IsOptional, IsNumber } from 'class-validator';
 
 export class CreateMaterialDto {
   @IsString()
@@ -16,6 +16,10 @@ export class CreateMaterialDto {
   @IsString()
   @IsNotEmpty()
   unidad: string;
+
+  @IsNumber()
+  @IsOptional()
+  coste?: number;
 }
 
 export class UpdateMaterialDto {
@@ -34,4 +38,8 @@ export class UpdateMaterialDto {
   @IsString()
   @IsOptional()
   unidad?: string;
+
+  @IsNumber()
+  @IsOptional()
+  coste?: number;
 }

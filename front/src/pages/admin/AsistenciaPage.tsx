@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
-import { MainLayout } from '../../components/MainLayout';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
 import { registrarAsistencia, getEstadoHoy, TipoAsistencia, type AsistenciaEstado } from '../../api/asistenciaApi';
-import { HiOutlineClock, HiOutlinePlay, HiOutlinePause, HiOutlineStop } from 'react-icons/hi2';
+import { HiOutlineClock, HiOutlinePlay, HiOutlinePause, HiOutlineStop, HiOutlineArrowRightStartOnRectangle, HiOutlineArrowLeft } from 'react-icons/hi2';
 
 const MOTIVOS_PAUSA = [
   'Descanso/Café',
@@ -12,6 +13,8 @@ const MOTIVOS_PAUSA = [
 ];
 
 export function AsistenciaPage() {
+  const navigate = useNavigate();
+  const { user, logout } = useAuth();
   const [estado, setEstado] = useState<AsistenciaEstado | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isActionLoading, setIsActionLoading] = useState(false);
@@ -37,11 +40,12 @@ export function AsistenciaPage() {
     setIsActionLoading(true);
     try {
       await registrarAsistencia(tipo, motivo);
-      await fetchEstado();
       if (tipo === TipoAsistencia.PAUSA) setShowPauseModal(false);
+      
+      // Auto-logout after an action
+      handleLogout();
     } catch (err) {
       alert('Error al registrar la acción');
-    } finally {
       setIsActionLoading(false);
     }
   };
@@ -51,19 +55,60 @@ export function AsistenciaPage() {
     return new Date(dateStr).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   };
 
+  const handleLogout = () => {
+    navigate('/');
+    setTimeout(() => {
+      logout();
+    }, 10);
+  };
+
   if (isLoading) {
     return (
-      <MainLayout title="Control de Horas">
-        <div className="flex items-center justify-center h-64">
-          <div className="w-10 h-10 border-4 border-brand-500 border-t-transparent rounded-full animate-spin" />
-        </div>
-      </MainLayout>
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
+        <div className="w-10 h-10 border-4 border-brand-500 border-t-transparent rounded-full animate-spin" />
+      </div>
     );
   }
 
   return (
-    <MainLayout title="Control de Horas">
-      <div className="max-w-4xl mx-auto space-y-8">
+    <div className="min-h-screen bg-slate-50 font-sans flex flex-col">
+      {/* Header Independiente */}
+      <header className="bg-white border-b border-slate-200 shadow-sm px-4 md:px-8 flex items-center justify-between h-[72px] shrink-0">
+        <div className="flex items-center gap-4">
+          <img
+            src="/logo-conorsa-azul.png"
+            alt="Conorsa"
+            className="h-10 object-contain"
+            onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+          />
+        </div>
+        <div className="flex items-center gap-4">
+          <div className="hidden md:flex items-center gap-2 px-3 py-1.5 bg-slate-50 rounded-lg border border-slate-200">
+            <div className="w-7 h-7 rounded-full bg-brand-100 flex items-center justify-center text-brand-700 font-bold text-xs">
+              {user?.email?.charAt(0).toUpperCase()}
+            </div>
+            <span className="text-sm font-medium text-slate-700">{user?.email?.split('@')[0]}</span>
+          </div>
+          <button
+            onClick={() => navigate('/')}
+            className="flex items-center gap-1.5 text-slate-600 font-semibold text-sm px-3 py-2 rounded-lg transition-colors hover:bg-slate-100"
+          >
+            <HiOutlineArrowLeft className="w-4 h-4" />
+            <span className="hidden md:inline">Volver</span>
+          </button>
+          <button
+            onClick={handleLogout}
+            className="flex items-center gap-1.5 text-red-600 font-semibold text-sm px-3 py-2 rounded-lg transition-colors hover:bg-red-50 border border-transparent hover:border-red-100"
+          >
+            <HiOutlineArrowRightStartOnRectangle className="w-4 h-4" />
+            <span className="hidden md:inline">Salir</span>
+          </button>
+        </div>
+      </header>
+
+      {/* Main Content */}
+      <main className="flex-1 overflow-y-auto p-4 md:p-8">
+        <div className="max-w-4xl mx-auto space-y-6 md:space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
         {/* Resumen de Estado */}
         <div className="bg-white border border-slate-200 rounded-3xl p-8 shadow-sm">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
@@ -249,6 +294,12 @@ export function AsistenciaPage() {
           </div>
         </div>
       )}
-    </MainLayout>
+      </main>
+
+      {/* Footer */}
+      <footer className="bg-white border-t border-slate-200 py-4 px-8 text-center text-slate-400 text-[10px] font-medium uppercase tracking-widest shrink-0 mt-auto">
+        © {new Date().getFullYear()} Construcciones Normalizadas, S.A. — Control de Horas
+      </footer>
+    </div>
   );
 }

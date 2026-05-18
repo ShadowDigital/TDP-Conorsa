@@ -69,6 +69,7 @@ export function MaterialsPage() {
                   <th className="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Código</th>
                   <th className="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Nombre</th>
                   <th className="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Unidad</th>
+                  <th className="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Coste</th>
                   <th className="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider text-right">Acciones</th>
                 </tr>
               </thead>
@@ -79,6 +80,7 @@ export function MaterialsPage() {
                       <td className="px-6 py-4"><div className="h-4 bg-slate-100 rounded w-20" /></td>
                       <td className="px-6 py-4"><div className="h-4 bg-slate-100 rounded w-40" /></td>
                       <td className="px-6 py-4"><div className="h-4 bg-slate-100 rounded w-10" /></td>
+                      <td className="px-6 py-4"><div className="h-4 bg-slate-100 rounded w-8" /></td>
                       <td className="px-6 py-4 text-right"><div className="h-4 bg-slate-100 rounded w-8 ml-auto" /></td>
                     </tr>
                   ))
@@ -104,6 +106,11 @@ export function MaterialsPage() {
                       <td className="px-6 py-4">
                         <span className="px-2 py-1 rounded bg-slate-100 text-slate-600 text-xs font-medium border border-slate-200">
                           {m.unidad}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4 text-right">
+                        <span className="px-2 py-1 rounded bg-slate-100 text-slate-600 text-xs font-medium border border-slate-200">
+                          {Number(m.coste).toFixed(2)} €/{m.unidad}
                         </span>
                       </td>
                       <td className="px-6 py-4 text-right">

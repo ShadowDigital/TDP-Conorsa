@@ -29,6 +29,7 @@ export function ProductFormPage() {
     nombre: '',
     descripcion: '',
     unidad: '',
+    coste: 0,
   });
 
   useEffect(() => {
@@ -96,6 +97,7 @@ export function ProductFormPage() {
         nombre: '',
         descripcion: '',
         unidad: '',
+        coste: 0,
       });
     } catch (err: any) {
       setError(err.response?.data?.message || 'Error al crear el material');
@@ -255,7 +257,8 @@ export function ProductFormPage() {
                     <tr className="bg-slate-50/50 border-b border-slate-100">
                       <th className="px-6 py-3 text-[10px] font-bold text-slate-400 uppercase tracking-wider">Código</th>
                       <th className="px-6 py-3 text-[10px] font-bold text-slate-400 uppercase tracking-wider">Material</th>
-                      <th className="px-6 py-3 text-[10px] font-bold text-slate-400 uppercase tracking-wider w-32">Cantidad</th>
+                      <th className="px-6 py-3 text-[10px] font-bold text-slate-400 uppercase tracking-wider w-40">Cantidad</th>
+                      <th className="px-6 py-3 text-[10px] font-bold text-slate-400 uppercase tracking-wider w-48 text-right">Coste</th>
                       <th className="px-6 py-3 text-[10px] font-bold text-slate-400 uppercase tracking-wider w-16"></th>
                     </tr>
                   </thead>
@@ -295,6 +298,11 @@ export function ProductFormPage() {
                                   {material.unidad}
                                 </span>
                               </div>
+                            </td>
+                            <td className="px-6 py-4 text-right">
+                              <span className="px-2 py-1 rounded bg-slate-100 text-slate-600 text-xs font-medium border border-slate-200">
+                                {Number(material.coste).toFixed(2)} €/{material.unidad}
+                              </span>
                             </td>
                             <td className="px-6 py-4 text-right">
                               <button
@@ -364,6 +372,8 @@ export function ProductFormPage() {
                     placeholder="MAT-001"
                   />
                 </div>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1 ml-1">Unidad</label>
                   <input
@@ -371,6 +381,19 @@ export function ProductFormPage() {
                     required
                     value={newMaterial.unidad}
                     onChange={(e) => setNewMaterial({ ...newMaterial, unidad: e.target.value })}
+                    className="w-full bg-slate-50 border border-slate-200 focus:border-brand-500 focus:ring-1 focus:ring-brand-500 rounded-xl px-3 py-2 text-sm text-slate-900 transition-all outline-none"
+                    placeholder="kg, m2, ud"
+                  />
+                </div>
+                <div>
+                  <label className="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1 ml-1">Coste (€/ud de medida)</label>
+                  <input
+                    type="number"
+                    required
+                    step="0.01"
+                    min="0"
+                    value={newMaterial.coste}
+                    onChange={(e) => setNewMaterial({ ...newMaterial, coste: Number(e.target.value) })}
                     className="w-full bg-slate-50 border border-slate-200 focus:border-brand-500 focus:ring-1 focus:ring-brand-500 rounded-xl px-3 py-2 text-sm text-slate-900 transition-all outline-none"
                     placeholder="kg, m2, ud"
                   />

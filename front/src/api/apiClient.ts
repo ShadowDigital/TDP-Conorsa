@@ -7,6 +7,12 @@ export const apiClient = axios.create({
   headers: { 'Content-Type': 'application/json' },
 });
 
+// Cliente público: sin cabecera de autorización ni redirección al login
+export const publicApiClient = axios.create({
+  baseURL: API_URL,
+  headers: { 'Content-Type': 'application/json' },
+});
+
 // Interceptor para añadir el token a todas las peticiones
 apiClient.interceptors.request.use(
   (config) => {

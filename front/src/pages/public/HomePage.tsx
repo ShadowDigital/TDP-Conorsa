@@ -1,9 +1,8 @@
 import { useNavigate } from 'react-router-dom';
 import {
+  HiCog,
   HiOutlineDocumentText,
-  HiOutlineUserGroup,
-  HiOutlineShieldCheck,
-  HiChevronRight
+  HiOutlineUserGroup
 } from 'react-icons/hi2';
 
 export function HomePage() {
@@ -13,16 +12,38 @@ export function HomePage() {
     <div className="min-h-screen bg-slate-100 font-sans flex flex-col">
 
       {/* Header */}
-      <header className="bg-white border-b-4 border-brand-600 shadow-sm px-8 flex items-center justify-between h-[72px]">
+      <header className="
+        bg-white
+        border-b-4 
+        border-brand-600 
+        shadow-sm 
+        px-8 
+        flex 
+        items-center 
+        justify-between 
+        h-[72px]
+      ">
         <img
           src="/logo-conorsa-azul.png"
           alt="Conorsa"
           className="h-12 object-contain"
           onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
         />
-        <span className="text-slate-400 text-xs font-semibold tracking-widest uppercase">
-          Sistema de Gestión
-        </span>
+
+        <div className="flex items-center gap-2">
+          <span className="text-slate-400 text-xs font-semibold tracking-widest uppercase">
+            Sistema de Gestión
+          </span>
+          <span className="text-slate-400 text-xs font-semibold tracking-widest uppercase">
+            <button
+              onClick={() => navigate('/admin/welcome')}
+              className="group bg-white border-2 border-slate-200 rounded-xl cursor-pointer shadow-sm transition-all duration-200 hover:border-brand-600 hover:shadow-xl hover:-translate-y-1"
+            >
+              <HiCog className="w-5 h-5" />
+            </button>
+          </span>
+        </div>
+
       </header>
 
       {/* Hero */}
@@ -50,15 +71,10 @@ export function HomePage() {
         />
         <SectionCard
           icon={<HiOutlineUserGroup className="w-7 h-7" />}
-          title="Administración"
-          description="Gestión de usuarios, configuración y panel de control del sistema."
+          title="Fichaje"
+          description="Registro de entradas y salidas del personal."
           label="Acceder"
-          onClick={() => navigate('/admin/welcome')}
-          badge={
-            <>
-              <HiOutlineShieldCheck className="w-3.5 h-3.5" title='Acceso restringido' />
-            </>
-          }
+          onClick={() => navigate('/asistencia')}
         />
       </main>
 
@@ -83,14 +99,14 @@ function SectionCard({ icon, title, description, label, onClick, badge }: Sectio
   return (
     <button
       onClick={onClick}
-      className="group bg-white border-2 border-slate-200 rounded-xl p-9 text-left flex flex-col gap-4 w-full cursor-pointer shadow-sm transition-all duration-200 hover:border-brand-600 hover:shadow-xl hover:-translate-y-1"
+      className="group bg-white border-2 border-slate-200 rounded-xl p-9 text-center flex flex-col gap-4 w-full cursor-pointer shadow-sm transition-all duration-200 hover:border-brand-600 hover:shadow-xl hover:-translate-y-1"
     >
-      <div className="w-14 h-14 rounded-xl bg-brand-50 border border-brand-200 flex items-center justify-center text-brand-600 shrink-0">
+      <div className="w-14 h-14 rounded-xl bg-brand-50 border border-brand-200 flex items-center justify-center text-brand-600 shrink-0 mx-auto">
         {icon}
       </div>
 
       <div className="flex-1">
-        <div className="flex items-center gap-2 mb-1">
+        <div className="flex items-center justify-center gap-2 mb-1">
           <h2 className="text-lg font-bold text-slate-900">{title}</h2>
           {badge && (
             <span className="text-xs font-semibold uppercase tracking-wide text-slate-500 bg-slate-100 border border-slate-200 rounded px-2 py-0.5 flex items-center gap-1.5">
@@ -101,9 +117,8 @@ function SectionCard({ icon, title, description, label, onClick, badge }: Sectio
         <p className="text-slate-500 text-sm leading-relaxed">{description}</p>
       </div>
 
-      <div className="flex items-center gap-1.5 text-brand-600 font-semibold text-sm">
+      <div className="bg-brand-50 border-2 border-brand-200 rounded-xl px-10 py-4 flex items-center gap-1.5 text-brand-600 font-semibold text-sm mx-auto">
         {label}
-        <HiChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
       </div>
     </button>
   );

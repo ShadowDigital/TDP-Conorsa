@@ -11,6 +11,7 @@ import { UsuariosModule } from './usuarios/usuarios.module';
 import { AsistenciaModule } from './asistencia/asistencia.module';
 import { MaterialesModule } from './materiales/materiales.module';
 import { ProductosModule } from './productos/productos.module';
+import { FabricacionModule } from './fabricacion/fabricacion.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
@@ -54,6 +55,7 @@ import { AppService } from './app.service';
         AsistenciaModule,
         MaterialesModule,
         ProductosModule,
+        FabricacionModule,
     ],
     controllers: [AppController],
     providers: [AppService],

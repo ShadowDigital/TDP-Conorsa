@@ -1,4 +1,4 @@
-import { apiClient as api } from './apiClient';
+import { apiClient as api, publicApiClient } from './apiClient';
 import type { Material } from './materialsApi';
 
 export interface Producto {
@@ -25,6 +25,7 @@ export interface CreateProductoDto {
 export type UpdateProductoDto = Partial<CreateProductoDto>;
 
 export const getProductos = () => api.get<Producto[]>('/productos');
+export const getProductosPublic = () => publicApiClient.get<Producto[]>('/productos');
 export const getProducto = (id: string) => api.get<Producto>(`/productos/${id}`);
 export const createProducto = (data: CreateProductoDto) => api.post<Producto>('/productos', data);
 export const updateProducto = (id: string, data: UpdateProductoDto) => api.patch<Producto>(`/productos/${id}`, data);

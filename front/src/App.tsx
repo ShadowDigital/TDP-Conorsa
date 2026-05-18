@@ -15,6 +15,7 @@ import { MaterialFormPage } from './pages/admin/MaterialFormPage';
 import { ProductsPage } from './pages/admin/ProductsPage';
 import { ProductFormPage } from './pages/admin/ProductFormPage';
 import { AsistenciaInformePage } from './pages/admin/AsistenciaInformePage';
+import { InformeCostesPage } from './pages/admin/InformeCostesPage';
 
 function App() {
   return (
@@ -28,8 +29,9 @@ function App() {
 
           {/* Protected */}
           <Route element={<PrivateRoute />}>
+            <Route path="/asistencia" element={<AsistenciaPage />} />
+            
             <Route path="/admin/welcome" element={<WelcomePage />} />
-            <Route path="/admin/asistencia" element={<AsistenciaPage />} />
             <Route path="/admin/profile" element={<ProfilePage />} />
 
             {/* Admin only */}
@@ -47,6 +49,8 @@ function App() {
               <Route path="/admin/products" element={<ProductsPage />} />
               <Route path="/admin/products/new" element={<ProductFormPage />} />
               <Route path="/admin/products/:id/edit" element={<ProductFormPage />} />
+
+              <Route path="/admin/costes/informe" element={<InformeCostesPage />} />
             </Route>
           </Route>
 

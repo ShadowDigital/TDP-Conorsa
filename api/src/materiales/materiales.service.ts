@@ -28,8 +28,11 @@ export class MaterialesService {
   }
 
   async update(id: string, updateMaterialDto: UpdateMaterialDto) {
+    console.log('Service Materials update');
+    console.log(updateMaterialDto);
     const material = await this.findOne(id);
     this.materialRepository.merge(material, updateMaterialDto);
+    console.log(material);
     return this.materialRepository.save(material);
   }
 
