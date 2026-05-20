@@ -1,4 +1,4 @@
-import { apiClient as api, publicApiClient } from './apiClient';
+import { publicApiClient } from './apiClient';
 
 export interface MaterialUsado {
   codigo_material: string;
@@ -12,6 +12,7 @@ export interface CreateFabricacionDto {
   nombre_producto: string;
   unidad: string;
   cantidad: number;
+  desperdicio?: number;
   pedido: string;
   materiales: MaterialUsado[];
 }

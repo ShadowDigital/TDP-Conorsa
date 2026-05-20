@@ -25,6 +25,14 @@ export class ProductoFabricado {
 
   @ApiProperty()
   @Column({ type: 'decimal', precision: 10, scale: 2, default: 0 })
+  desperdicio: number;
+
+  @ApiProperty()
+  @Column({ type: 'decimal', precision: 10, scale: 2, default: 0 })
+  coste_desperdicio: number;
+
+  @ApiProperty()
+  @Column({ type: 'decimal', precision: 10, scale: 2, default: 0 })
   coste_teorico: number;
 
   @ApiProperty()

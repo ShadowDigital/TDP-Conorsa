@@ -39,8 +39,9 @@ export class FabricacionService {
       );
     }
 
-    // Calcular coste teórico
+    // Calcular coste teórico y coste de desperdicio
     let coste_teorico = 0;
+    let coste_desperdicio = 0;
     const productoDb = await this.productoRepository.findOne({ 
       where: { codigo: productData.codigo_producto },
       relations: ['productoMateriales', 'productoMateriales.material']
@@ -52,11 +53,13 @@ export class FabricacionService {
         costeUnidadTeorico += pm.cantidad * (pm.material ? pm.material.coste : 0);
       }
       coste_teorico = costeUnidadTeorico * productData.cantidad;
+      coste_desperdicio = costeUnidadTeorico * (productData.desperdicio || 0);
     }
 
     const productoFabricado = this.pfRepository.create({
       ...productData,
       coste_teorico,
+      coste_desperdicio,
       coste_real,
       materialesUsados: materialesUsadosToSave
     });

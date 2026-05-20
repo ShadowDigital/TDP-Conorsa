@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString, IsNumber, IsArray, ValidateNested, IsNotEmpty } from 'class-validator';
+import { IsString, IsNumber, IsArray, ValidateNested, IsNotEmpty, IsOptional } from 'class-validator';
 import { Type } from 'class-transformer';
 
 class MaterialUsadoDto {
@@ -42,6 +42,11 @@ export class CreateFabricacionDto {
   @ApiProperty()
   @IsNumber()
   cantidad: number;
+
+  @ApiProperty()
+  @IsNumber()
+  @IsOptional()
+  desperdicio?: number;
 
   @ApiProperty()
   @IsString()

@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
-import { MainLayout } from '../../components/MainLayout';
-import { getUsers, deleteUser, type User } from '../../api/usersApi';
-import { useAuth } from '../../context/AuthContext';
+import { MainLayout } from '../../../components/MainLayout';
+import { getUsers, deleteUser, type User } from '../../../api/usersApi';
+import { useAuth } from '../../../context/AuthContext';
 import { Link } from 'react-router-dom';
-import { HiPlus, HiOutlinePencil, HiOutlineTrash } from 'react-icons/hi2';
+import { HiPlus, HiOutlinePencil, HiOutlineTrash, HiOutlineUsers } from 'react-icons/hi2';
 
 export function UsersPage() {
   const { user: currentUser } = useAuth();
@@ -45,7 +45,12 @@ export function UsersPage() {
       <div className="space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <h1 className="text-2xl font-bold text-slate-900">Usuarios</h1>
+            <h1 className="text-2xl font-bold text-slate-900 flex items-center gap-2">
+              <div className="w-8 h-8 rounded-lg bg-brand-100 flex items-center justify-center text-brand-600">
+                <HiOutlineUsers className="w-4 h-4" />
+              </div>
+              Usuarios
+            </h1>
             <p className="text-slate-500 text-sm">Administra los usuarios y sus permisos en el sistema.</p>
           </div>
           {isAdmin && (
@@ -114,11 +119,10 @@ export function UsersPage() {
                         </div>
                       </td>
                       <td className="px-6 py-4">
-                        <span className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-medium ${
-                          u.isActive 
-                            ? 'bg-emerald-50 text-emerald-700 border border-emerald-100' 
-                            : 'bg-red-50 text-red-700 border border-red-100'
-                        }`}>
+                        <span className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-medium ${u.isActive
+                          ? 'bg-emerald-50 text-emerald-700 border border-emerald-100'
+                          : 'bg-red-50 text-red-700 border border-red-100'
+                          }`}>
                           <span className={`w-1.5 h-1.5 rounded-full ${u.isActive ? 'bg-emerald-500' : 'bg-red-500'}`} />
                           {u.isActive ? 'Activo' : 'Inactivo'}
                         </span>

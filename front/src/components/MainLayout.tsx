@@ -44,12 +44,12 @@ export function MainLayout({ children, title = 'Dashboard General' }: MainLayout
   };
 
   const menuItems = [
-    {
-      name: 'Inicio',
-      path: '/',
-      icon: <HiOutlineHome className="w-5 h-5" />,
-      show: true
-    },
+    // {
+    //   name: 'Inicio',
+    //   path: '/',
+    //   icon: <HiOutlineHome className="w-5 h-5" />,
+    //   show: true
+    // },
     {
       name: 'Dashboard',
       path: '/admin/welcome',
@@ -57,10 +57,24 @@ export function MainLayout({ children, title = 'Dashboard General' }: MainLayout
       show: true
     },
     {
+      name: 'Informe Costes',
+      path: '/admin/costes/informe',
+      icon: <HiOutlineDocumentChartBar className="w-5 h-5" />,
+      show: user?.roles?.includes('admin')
+    },
+    {
       name: 'Informe Asistencia',
       path: '/admin/asistencia/informe',
       icon: <HiOutlineClock className="w-5 h-5" />,
-      show: user?.roles?.includes('admin')
+      show: user?.roles?.includes('admin'),
+      hasSeparatorAfter: true
+    },
+    {
+      name: 'TDP',
+      path: '/',
+      icon: <HiOutlineHome className="w-5 h-5" />,
+      show: true,
+      hasSeparatorAfter: true
     },
     {
       name: 'Materiales',
@@ -72,12 +86,6 @@ export function MainLayout({ children, title = 'Dashboard General' }: MainLayout
       name: 'Productos',
       path: '/admin/products',
       icon: <HiOutlineRectangleGroup className="w-5 h-5" />,
-      show: user?.roles?.includes('admin')
-    },
-    {
-      name: 'Informe Costes',
-      path: '/admin/costes/informe',
-      icon: <HiOutlineDocumentChartBar className="w-5 h-5" />,
       show: user?.roles?.includes('admin')
     },
     {
@@ -104,7 +112,7 @@ export function MainLayout({ children, title = 'Dashboard General' }: MainLayout
         <nav className="flex-1 overflow-y-auto py-4 px-3 space-y-1">
           {menuItems.map((item) => {
             const isActive = location.pathname === item.path;
-            
+
             return (
               <div key={item.path} className="space-y-1">
                 <Link
@@ -117,10 +125,21 @@ export function MainLayout({ children, title = 'Dashboard General' }: MainLayout
                   {item.icon}
                   {item.name}
                 </Link>
+                {(item as any).hasSeparatorAfter && (
+                  <div className="my-2 border-t border-slate-100" />
+                )}
               </div>
             );
           })}
         </nav>
+
+        {/* Sidebar Footer / Version Indicator */}
+        <div className="p-4  shrink-0 select-none">
+          <span className="inline-flex items-center gap-1.5 mt-1 px-2.5 py-0.5 rounded-xs bg-white border border-slate-200 text-xs font-bold text-slate-400 shadow-sm">
+            {/* <span className="w-1.5 h-1.5 rounded-full bg-brand-500 animate-pulse" /> */}
+            {import.meta.env.VITE_APP_VERSION || 'v0.0.0'}
+          </span>
+        </div>
       </aside>
 
       {/* Main Area */}
@@ -176,10 +195,14 @@ export function MainLayout({ children, title = 'Dashboard General' }: MainLayout
 
         {/* Content */}
         <main className="flex-1 overflow-y-auto p-6 lg:p-10">
-          <div className="max-w-4xl mx-auto">
+          <div className="max-w-7xl mx-auto">
             {children}
           </div>
         </main>
+        {/* Footer */}
+        <footer className="bg-white border-t border-slate-200 py-1 px-8 text-center text-slate-400 text-xs">
+          © {new Date().getFullYear()} Construcciones Normalizadas, S.A. — Todos los derechos reservados
+        </footer>
       </div>
     </div>
   );

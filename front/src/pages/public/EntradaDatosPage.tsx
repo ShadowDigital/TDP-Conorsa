@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { getProductosPublic, type Producto } from '../../api/productsApi';
 import { saveFabricacion } from '../../api/fabricacionApi';
+import { PublicFooter } from '../../components/PublicFooter';
+import { PublicHeader } from '../../components/PublicHeader';
 
 type Step = 'PEDIDO' | 'PRODUCTO' | 'MATERIALES';
 
@@ -15,7 +16,6 @@ interface MaterialEditado {
 }
 
 export function EntradaDatosPage() {
-  const navigate = useNavigate();
   const [step, setStep] = useState<Step>('PEDIDO');
   const [pedido, setPedido] = useState('');
   const [productos, setProductos] = useState<Producto[]>([]);
@@ -23,6 +23,7 @@ export function EntradaDatosPage() {
   const [selectedProducto, setSelectedProducto] = useState<Producto | null>(null);
   const [materialesEditados, setMaterialesEditados] = useState<MaterialEditado[]>([]);
   const [cantidadTotal, setCantidadTotal] = useState<number>(1);
+  const [desperdicio, setDesperdicio] = useState<number>(0);
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
 
@@ -54,6 +55,7 @@ export function EntradaDatosPage() {
     }));
     setMaterialesEditados(materials);
     setCantidadTotal(1);
+    setDesperdicio(0);
     setStep('MATERIALES');
   };
 
@@ -75,6 +77,7 @@ export function EntradaDatosPage() {
         nombre_producto: selectedProducto.nombre,
         unidad: selectedProducto.unidad,
         cantidad: Number(cantidadTotal),
+        desperdicio: Number(desperdicio),
         materiales: materialesEditados.map(m => ({
           codigo_material: m.codigo,
           nombre_maaterial: m.nombre,
@@ -106,33 +109,22 @@ export function EntradaDatosPage() {
     p.codigo.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+
+  const reset = () => {
+    setPedido('');
+    setStep('PEDIDO');
+    // setSelectedProducto(null);
+    setSearchTerm('');
+    // setMaterialesEditados([]);
+    // setCantidadTotal(1);
+    // setDesperdicio(0);
+  }
+
+
   return (
     <div className="min-h-screen bg-slate-50 font-sans flex flex-col">
       {/* Header */}
-      <header className="bg-white border-b border-slate-200 shadow-sm px-8 flex items-center justify-between h-[72px] shrink-0">
-        <img
-          src="/logo-conorsa-azul.png"
-          alt="Conorsa"
-          className="h-10 object-contain"
-          onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
-        />
-        <div className="flex items-center gap-4">
-          {pedido && (
-            <div className="bg-brand-50 text-brand-700 px-3 py-1 rounded-full text-xs font-bold border border-brand-100">
-              PEDIDO: {pedido}
-            </div>
-          )}
-          <button
-            onClick={() => navigate('/')}
-            className="flex items-center gap-1.5 text-slate-600 font-semibold text-sm px-3 py-2 rounded-lg transition-colors hover:bg-slate-100"
-          >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2.2} viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M11 17l-5-5m0 0l5-5m-5 5h12" />
-            </svg>
-            Inicio
-          </button>
-        </div>
-      </header>
+      <PublicHeader />
 
       {/* Progress Bar */}
       <div className="bg-white border-b border-slate-200 px-8 py-4">
@@ -149,7 +141,8 @@ export function EntradaDatosPage() {
 
       {/* Main Content */}
       <main className="flex-1 overflow-y-auto p-8">
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-7xl mx-auto">
+          {/** PRIMER PASO - PEDIDO */}
           {step === 'PEDIDO' && (
             <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-8 text-center animate-in fade-in slide-in-from-bottom-4 duration-500">
               <div className="w-16 h-16 bg-brand-50 rounded-full flex items-center justify-center text-brand-600 mx-auto mb-6">
@@ -178,21 +171,47 @@ export function EntradaDatosPage() {
             </div>
           )}
 
+          {/* SEGUNDO PASO - PRODUCTO */}
           {step === 'PRODUCTO' && (
             <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+              {/* Cabecera de la tarjeta */}
               <div className="flex items-center justify-between mb-6">
                 <div>
                   <h2 className="text-2xl font-bold text-slate-900">Seleccionar Producto</h2>
                   <p className="text-slate-500">Busca el producto por código o nombre.</p>
                 </div>
-                <button
-                  onClick={() => setStep('PEDIDO')}
-                  className="text-slate-400 hover:text-slate-600 text-sm font-medium transition-colors"
-                >
-                  Cambiar pedido
-                </button>
-              </div>
 
+                <div className="flex gap-4">
+                  {/* Número de pedido */}
+                  <div className="bg-white rounded-xl p-4 border border-slate-200 shadow-sm flex items-center justify-center bg-brand-50/30">
+                    <div className="text-center">
+                      <span className="block text-xs font-bold text-slate-400 uppercase mb-1">Pedido <span className="text-lg font-bold text-brand-700 ms-2">{pedido}</span></span>
+                    </div>
+                  </div>
+
+                  {/* Botón de nueva fabricación */}
+                  <button
+                    onClick={reset}
+                    className="bg-brand-600 text-white hover:bg-slate-600 px-6 py-4 rounded-xl text-sm font-medium transition-all shadow-lg shadow-slate-200 flex items-center justify-center gap-2"
+                  >
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" /></svg>
+                    Cambiar pedido
+                  </button>
+
+                  {/* Botón de finalizar */}
+                  <button
+                    onClick={reset}
+                    className="bg-green-900 text-white hover:bg-green-800 px-6 py-4 rounded-xl text-sm font-medium transition-all shadow-lg shadow-slate-200 flex items-center justify-center gap-2"
+                  >
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" /></svg>
+                    Finalizar
+                  </button>
+                </div>
+              </div>
+              {/* Fin Cabecera de la tarjeta */}
+
+              {/* Barra de búsqueda */}
               <div className="relative mb-6">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
@@ -202,24 +221,26 @@ export function EntradaDatosPage() {
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   placeholder="Buscar producto..."
-                  className="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition-all"
+                  className="text-slate-700 w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition-all"
                   autoFocus
                 />
               </div>
+              {/* Fin Barra de búsqueda */}
 
+              {/* Contenedor de productos */}
               {loading ? (
                 <div className="py-12 text-center text-slate-400">Cargando productos...</div>
               ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-h-[400px] overflow-y-auto pr-2 custom-scrollbar">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-h-[400px] overflow-y-auto pr-2 custom-scrollbar">
                   {filteredProductos.map(producto => (
                     <button
                       key={producto.id}
                       onClick={() => handleSelectProducto(producto)}
-                      className="flex flex-col items-start p-4 rounded-xl border border-slate-100 bg-slate-50 hover:bg-brand-50 hover:border-brand-200 transition-all text-left group"
+                      className="flex flex-row items-end gap-2 p-4 rounded-xl border border-slate-100 bg-slate-50 hover:bg-brand-50 hover:border-brand-200 transition-all text-left group"
                     >
                       <span className="text-xs font-bold text-brand-600 mb-1 uppercase tracking-wider">{producto.codigo}</span>
                       <span className="text-slate-900 font-bold group-hover:text-brand-700 transition-colors">{producto.nombre}</span>
-                      <span className="text-xs text-slate-400 mt-1">{producto.unidad}</span>
+                      {/* <span className="text-xs text-slate-400 mt-1">{producto.unidad}</span> */}
                     </button>
                   ))}
                   {filteredProductos.length === 0 && (
@@ -227,24 +248,14 @@ export function EntradaDatosPage() {
                   )}
                 </div>
               )}
-
-              <div className="mt-8">
-                <button
-                  onClick={() => {
-                    setPedido('');
-                    setStep('PEDIDO');
-                  }}
-                  className="w-full bg-slate-900 text-white py-4 rounded-xl font-bold hover:bg-slate-800 transition-all shadow-lg shadow-slate-200 flex items-center justify-center gap-2"
-                >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" /></svg>
-                  Finalizar Fabricación
-                </button>
-              </div>
+              {/* Fin Contenedor de productos */}
             </div>
           )}
 
+          {/* TERCER PASO - MATERIALES */}
           {step === 'MATERIALES' && selectedProducto && (
             <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden animate-in fade-in slide-in-from-bottom-4 duration-500">
+              {/* Cabecera de la tarjeta */}
               <div className="bg-slate-50 border-b border-slate-200 p-8">
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-4">
@@ -256,15 +267,24 @@ export function EntradaDatosPage() {
                       <p className="text-xs font-bold text-brand-600 uppercase tracking-widest">{selectedProducto.codigo}</p>
                     </div>
                   </div>
-                  <button
-                    onClick={() => setStep('PRODUCTO')}
-                    className="text-slate-400 hover:text-slate-600 text-sm font-medium transition-colors"
-                  >
-                    Cambiar producto
-                  </button>
+
+                  <div className="flex gap-4">
+                    {/* Número de pedido */}
+                    <div className="bg-white rounded-xl p-4 border border-slate-200 shadow-sm flex items-center justify-center bg-brand-50/30">
+                      <div className="text-center">
+                        <span className="block text-xs font-bold text-slate-400 uppercase mb-1">Pedido <span className="text-lg font-bold text-brand-700 ms-2">{pedido}</span></span>
+                      </div>
+                    </div>
+                    <button
+                      onClick={() => setStep('PRODUCTO')}
+                      className="bg-brand-600 text-white hover:bg-slate-600 px-6 py-4 rounded-xl text-sm font-medium transition-all shadow-lg shadow-slate-200 flex items-center justify-center gap-2"
+                    >
+                      Cambiar producto
+                    </button>
+                  </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div className="bg-white rounded-xl p-4 border border-slate-200 shadow-sm">
                     <label className="block text-xs font-bold text-slate-400 uppercase mb-2">Cantidad Total Fabricada ({selectedProducto.unidad})</label>
                     <input
@@ -282,11 +302,18 @@ export function EntradaDatosPage() {
                       autoFocus
                     />
                   </div>
-                  <div className="bg-white rounded-xl p-4 border border-slate-200 shadow-sm flex items-center justify-center bg-brand-50/30">
-                    <div className="text-center">
-                      <span className="block text-xs font-bold text-slate-400 uppercase mb-1">Pedido</span>
-                      <span className="text-lg font-bold text-brand-700">{pedido}</span>
-                    </div>
+                  <div className="bg-white rounded-xl p-4 border border-slate-200 shadow-sm">
+                    <label className="block text-xs font-bold text-slate-400 uppercase mb-2">Desperdicio ({selectedProducto.unidad})</label>
+                    <input
+                      type="number"
+                      value={desperdicio}
+                      onChange={(e) => {
+                        const val = parseFloat(e.target.value) || 0;
+                        setDesperdicio(val);
+                      }}
+                      className="w-full text-2xl font-bold text-slate-900 outline-none bg-transparent"
+                      placeholder="0.00"
+                    />
                   </div>
                 </div>
               </div>
@@ -301,25 +328,32 @@ export function EntradaDatosPage() {
                   <table className="w-full text-left border-collapse">
                     <thead>
                       <tr className="bg-slate-50 text-[10px] font-black text-slate-400 uppercase tracking-widest border-b border-slate-100">
-                        <th className="px-6 py-3">Código</th>
-                        <th className="px-6 py-3">Material</th>
-                        <th className="px-6 py-3 text-right">Teórica/ud</th>
-                        <th className="px-6 py-3 text-right">Cantidad ({materialesEditados[0]?.unidad})</th>
+                        <th className="px-6 py-3 w-[5%]">Código</th>
+                        <th className="px-6 py-3 w-[45%]">Material</th>
+                        <th className="px-6 py-3 text-right w-[0%]">Teórica/ud</th>
+                        <th className="px-6 py-3 text-right w-[30%]">Cantidad</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-100">
                       {materialesEditados.map((m, idx) => (
                         <tr key={m.materialId} className="hover:bg-slate-50/50 transition-colors">
-                          <td className="px-6 py-4 text-xs font-bold text-slate-500">{m.codigo}</td>
-                          <td className="px-6 py-4 text-sm font-medium text-slate-900">{m.nombre}</td>
+                          <td className="px-6 py-4">
+                            <span className="text-xs font-bold text-brand-600 mb-1 uppercase tracking-wider">{m.codigo}</span>
+                          </td>
+                          <td className="px-6 py-4">
+                            <span className="text-slate-900 font-bold group-hover:text-brand-700 transition-colors">{m.nombre}</span>
+                          </td>
                           <td className="px-6 py-4 text-right text-sm text-slate-400 font-medium">{m.cantidadTeorica}</td>
-                          <td className="px-6 py-4 text-right">
-                            <input
-                              type="number"
-                              value={m.cantidad}
-                              onChange={(e) => handleMaterialChange(idx, e.target.value)}
-                              className="w-24 px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-right font-bold text-slate-900 focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none"
-                            />
+                          <td className="px-6 py-4">
+                            <div className="flex items-center justify-end gap-2 w-full">
+                              <input
+                                type="number"
+                                value={m.cantidad}
+                                onChange={(e) => handleMaterialChange(idx, e.target.value)}
+                                className="flex-1 min-w-[80px] px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-right font-bold text-slate-900 focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none"
+                              />
+                              <span className="text-sm font-bold text-slate-400 shrink-0">{m.unidad}</span>
+                            </div>
                           </td>
                         </tr>
                       ))}
@@ -351,7 +385,7 @@ export function EntradaDatosPage() {
                     className="flex-1 bg-slate-900 text-white py-4 rounded-xl font-bold hover:bg-slate-800 transition-all shadow-lg shadow-slate-200 flex items-center justify-center gap-2 disabled:opacity-50"
                   >
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" /></svg>
-                    Finalizar Fabricación
+                    Guardar y Finalizar
                   </button>
                 </div>
               </div>
@@ -361,13 +395,19 @@ export function EntradaDatosPage() {
       </main>
 
       {/* Footer */}
-      <footer className="bg-white border-t border-slate-200 py-4 px-8 text-center text-slate-400 text-[10px] font-medium uppercase tracking-widest shrink-0">
-        © {new Date().getFullYear()} Construcciones Normalizadas, S.A. — Gestión de Producción
-      </footer>
+      <PublicFooter />
     </div>
   );
 }
 
+/**
+ * Devuelve el icono del paso 
+ * @param active
+ * @param completed
+ * @param label
+ * @param icon
+ * @returns 
+ */
 function StepIcon({ active, completed, label, icon }: { active: boolean, completed: boolean, label: string, icon: React.ReactNode }) {
   return (
     <div className="flex flex-col items-center gap-2 z-10 relative">

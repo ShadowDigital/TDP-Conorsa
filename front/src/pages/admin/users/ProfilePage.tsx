@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import { useAuth } from '../context/AuthContext';
-import { MainLayout } from '../components/MainLayout';
-import { getProfile, updateProfile } from '../api/usersApi';
+import { useAuth } from '../../../context/AuthContext';
+import { MainLayout } from '../../../components/MainLayout';
+import { getProfile, updateProfile } from '../../../api/usersApi';
 
 export function ProfilePage() {
   const { user } = useAuth();
@@ -50,7 +50,7 @@ export function ProfilePage() {
         name: formData.name,
         email: formData.email,
       };
-      
+
       if (formData.password) {
         updateData.password = formData.password;
       }
@@ -58,7 +58,7 @@ export function ProfilePage() {
       await updateProfile(user.id, updateData);
       setSuccess('Perfil actualizado correctamente');
       setFormData(prev => ({ ...prev, password: '' }));
-      
+
       // Note: If the user changes their email, the AuthContext might still have the old one 
       // until the next login or if we call a refresh method. 
       // For now, we'll just indicate success.

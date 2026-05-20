@@ -1,9 +1,9 @@
-import { useAuth } from '../context/AuthContext';
-import { MainLayout } from '../components/MainLayout';
-import { 
-  HiOutlineEnvelope, 
-  HiOutlineBriefcase, 
-  HiOutlineShieldCheck 
+import { useAuth } from '../../context/AuthContext';
+import { MainLayout } from '../../components/MainLayout';
+import {
+  HiOutlineEnvelope,
+  HiOutlineBriefcase,
+  HiOutlineShieldCheck
 } from 'react-icons/hi2';
 
 export function WelcomePage() {

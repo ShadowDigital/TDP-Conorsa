@@ -5,15 +5,15 @@ import { AdminRoute } from './components/AdminRoute';
 import { HomePage } from './pages/public/HomePage';
 import { EntradaDatosPage } from './pages/public/EntradaDatosPage';
 import { LoginPage } from './pages/LoginPage';
-import { WelcomePage } from './pages/WelcomePage';
-import { UsersPage } from './pages/users/UsersPage';
-import { UserFormPage } from './pages/users/UserFormPage';
-import { ProfilePage } from './pages/ProfilePage';
+import { WelcomePage } from './pages/admin/WelcomePage';
+import { UsersPage } from './pages/admin/users/UsersPage';
+import { UserFormPage } from './pages/admin/users/UserFormPage';
+import { ProfilePage } from './pages/admin/users/ProfilePage';
 import { AsistenciaPage } from './pages/admin/AsistenciaPage';
-import { MaterialsPage } from './pages/admin/MaterialsPage';
-import { MaterialFormPage } from './pages/admin/MaterialFormPage';
-import { ProductsPage } from './pages/admin/ProductsPage';
-import { ProductFormPage } from './pages/admin/ProductFormPage';
+import { MaterialsPage } from './pages/admin/materiales/MaterialsPage';
+import { MaterialFormPage } from './pages/admin/materiales/MaterialFormPage';
+import { ProductsPage } from './pages/admin/productos/ProductsPage';
+import { ProductFormPage } from './pages/admin/productos/ProductFormPage';
 import { AsistenciaInformePage } from './pages/admin/AsistenciaInformePage';
 import { InformeCostesPage } from './pages/admin/InformeCostesPage';
 
@@ -30,7 +30,7 @@ function App() {
           {/* Protected */}
           <Route element={<PrivateRoute />}>
             <Route path="/asistencia" element={<AsistenciaPage />} />
-            
+
             <Route path="/admin/welcome" element={<WelcomePage />} />
             <Route path="/admin/profile" element={<ProfilePage />} />
 
@@ -45,7 +45,7 @@ function App() {
               <Route path="/admin/materials" element={<MaterialsPage />} />
               <Route path="/admin/materials/new" element={<MaterialFormPage />} />
               <Route path="/admin/materials/:id/edit" element={<MaterialFormPage />} />
-              
+
               <Route path="/admin/products" element={<ProductsPage />} />
               <Route path="/admin/products/new" element={<ProductFormPage />} />
               <Route path="/admin/products/:id/edit" element={<ProductFormPage />} />

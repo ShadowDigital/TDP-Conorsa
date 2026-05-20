@@ -10,7 +10,7 @@ async function bootstrap() {
 
     // Enable CORS for local frontends and allow credentials
     app.enableCors({
-        origin: (origin, callback) => {
+        origin: (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) => {
             // Allow requests with no origin (like mobile apps, curl requests)
             if (!origin) return callback(null, true);
 

@@ -2,12 +2,12 @@ import { useState } from 'react';
 import type { FormEvent } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { 
-  HiOutlineKey, 
-  HiOutlineEnvelope, 
-  HiOutlineLockClosed, 
-  HiChevronRight, 
-  HiOutlineExclamationCircle 
+import {
+  HiOutlineKey,
+  HiOutlineEnvelope,
+  HiOutlineLockClosed,
+  HiChevronRight,
+  HiOutlineExclamationCircle
 } from 'react-icons/hi2';
 
 export function LoginPage() {
@@ -129,6 +129,8 @@ export function LoginPage() {
                 </>
               )}
             </button>
+
+            <a href="/" className="text-sm text-brand-600 hover:text-brand-700 block text-center mt-4">Volver</a>
           </form>
         </div>
       </div>
