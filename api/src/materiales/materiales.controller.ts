@@ -18,7 +18,6 @@ export class MaterialesController {
 
   @Get()
   findAll() {
-    console.log('Controller');
     return this.materialesService.findAll();
   }
 

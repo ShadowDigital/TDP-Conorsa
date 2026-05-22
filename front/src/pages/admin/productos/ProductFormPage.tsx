@@ -291,7 +291,8 @@ export function ProductFormPage() {
                             <th className="px-6 py-3 text-[10px] font-bold text-slate-400 uppercase tracking-wider">Código</th>
                             <th className="px-6 py-3 text-[10px] font-bold text-slate-400 uppercase tracking-wider">Material</th>
                             <th className="px-6 py-3 text-[10px] font-bold text-slate-400 uppercase tracking-wider w-40">Cantidad</th>
-                            <th className="px-6 py-3 text-[10px] font-bold text-slate-400 uppercase tracking-wider w-48 text-right">Coste</th>
+                            <th className="px-6 py-3 text-[10px] font-bold text-slate-400 uppercase tracking-wider w-40 text-right">Coste/Ud</th>
+                            <th className="px-6 py-3 text-[10px] font-bold text-slate-400 uppercase tracking-wider w-40 text-right">Coste</th>
                             <th className="px-6 py-3 text-[10px] font-bold text-slate-400 uppercase tracking-wider w-16"></th>
                             </tr>
                         </thead>
@@ -333,9 +334,14 @@ export function ProductFormPage() {
                                     </div>
                                     </td>
                                     <td className="px-6 py-4 text-right">
-                                    <span className="px-2 py-1 rounded bg-slate-100 text-slate-600 text-xs font-medium border border-slate-200">
-                                        {Number(material.coste).toFixed(2)} €/{material.unidad}
-                                    </span>
+                                        <span className="px-2 py-1 rounded bg-slate-100 text-slate-600 text-xs font-medium border border-slate-200">
+                                            {Number(material.coste).toFixed(2)} €/{material.unidad}
+                                        </span>
+                                    </td>
+                                    <td className="px-6 py-4 text-right">
+                                        <span className="px-2 py-1 rounded bg-slate-100 text-slate-600 text-xs font-medium border border-slate-200">
+                                            {Number(material.coste * sm.cantidad).toFixed(2)} €
+                                        </span>
                                     </td>
                                     <td className="px-6 py-4 text-right">
                                     <button

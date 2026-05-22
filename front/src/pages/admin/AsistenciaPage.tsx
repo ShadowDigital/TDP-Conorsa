@@ -123,7 +123,7 @@ export function AsistenciaPage() {
                 ) : estado?.enPausa ? (
                   <div className="flex items-center gap-2 text-amber-600 bg-amber-50 px-3 py-1 rounded-full text-sm font-medium">
                     <HiOutlinePause className="w-4 h-4" />
-                    En Pausa ({estado.ultimaPausa?.motivo_pausa})
+                    En Pausa ({estado?.ultimaPausa?.motivo_pausa})
                   </div>
                 ) : estado?.haIniciado ? (
                   <div className="flex items-center gap-2 text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full text-sm font-medium">
@@ -147,13 +147,13 @@ export function AsistenciaPage() {
               {estado?.enPausa && (
                 <div>
                   <p className="text-xs text-slate-400 font-medium mb-1">Inicio Pausa</p>
-                  <p className="text-xl font-bold text-amber-600">{formatTime(estado.ultimaPausa?.fecha_hora ?? null)}</p>
+                  <p className="text-xl font-bold text-amber-600">{formatTime(estado?.ultimaPausa?.fecha_hora ?? null)}</p>
                 </div>
               )}
               {estado?.haFinalizado && (
                 <div>
                   <p className="text-xs text-slate-400 font-medium mb-1">Fin Jornada</p>
-                  <p className="text-xl font-bold text-slate-900">{formatTime(estado.finJornada)}</p>
+                  <p className="text-xl font-bold text-slate-900">{formatTime(estado?.finJornada)}</p>
                 </div>
               )}
             </div>
@@ -175,7 +175,7 @@ export function AsistenciaPage() {
 
           <button
             onClick={() => setShowPauseModal(true)}
-            disabled={!estado?.haIniciado || estado.enPausa || estado.haFinalizado || isActionLoading}
+            disabled={!estado?.haIniciado || estado?.enPausa || estado?.haFinalizado || isActionLoading}
             className="group flex flex-col items-center justify-center p-6 bg-white border border-slate-200 rounded-2xl hover:border-amber-500 hover:shadow-lg transition-all disabled:opacity-50 disabled:hover:border-slate-200 disabled:hover:shadow-none"
           >
             <div className="w-12 h-12 rounded-xl bg-amber-50 flex items-center justify-center text-amber-600 mb-3 group-hover:bg-amber-500 group-hover:text-white transition-colors">
@@ -186,7 +186,7 @@ export function AsistenciaPage() {
 
           <button
             onClick={() => handleAction(TipoAsistencia.FIN_PAUSA)}
-            disabled={!estado?.enPausa || estado.haFinalizado || isActionLoading}
+            disabled={!estado?.enPausa || estado?.haFinalizado || isActionLoading}
             className="group flex flex-col items-center justify-center p-6 bg-white border border-slate-200 rounded-2xl hover:border-indigo-500 hover:shadow-lg transition-all disabled:opacity-50 disabled:hover:border-slate-200 disabled:hover:shadow-none"
           >
             <div className="w-12 h-12 rounded-xl bg-indigo-50 flex items-center justify-center text-indigo-600 mb-3 group-hover:bg-indigo-500 group-hover:text-white transition-colors">
@@ -201,7 +201,7 @@ export function AsistenciaPage() {
                 handleAction(TipoAsistencia.FIN_JORNADA);
               }
             }}
-            disabled={!estado?.haIniciado || estado.haFinalizado || isActionLoading}
+            disabled={!estado?.haIniciado || estado?.haFinalizado || isActionLoading}
             className="group flex flex-col items-center justify-center p-6 bg-white border border-slate-200 rounded-2xl hover:border-red-500 hover:shadow-lg transition-all disabled:opacity-50 disabled:hover:border-slate-200 disabled:hover:shadow-none"
           >
             <div className="w-12 h-12 rounded-xl bg-red-50 flex items-center justify-center text-red-600 mb-3 group-hover:bg-red-500 group-hover:text-white transition-colors">
@@ -224,12 +224,12 @@ export function AsistenciaPage() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
-                {estado?.registros.length === 0 ? (
+                {!estado?.registros || estado.registros.length === 0 ? (
                   <tr>
                     <td colSpan={3} className="px-6 py-10 text-center text-slate-400 italic">No hay actividad registrada hoy.</td>
                   </tr>
                 ) : (
-                  estado?.registros.map((r) => (
+                  estado.registros.map((r) => (
                     <tr key={r.id} className="hover:bg-slate-50 transition-colors">
                       <td className="px-6 py-4 text-sm text-slate-600 font-mono">
                         {formatTime(r.fecha_hora)}

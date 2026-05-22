@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { MainLayout } from '../../components/MainLayout';
-import { HiOutlineDocumentArrowDown, HiOutlineCalendar, HiOutlineTrash, HiOutlineClock } from 'react-icons/hi2';
+import { HiOutlineDocumentArrowDown, HiOutlineTrash, HiOutlineClock } from 'react-icons/hi2';
 import { generarInforme } from '../../api/asistenciaApi';
 
 export function AsistenciaInformePage() {

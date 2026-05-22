@@ -6,39 +6,39 @@ import { CreateMaterialDto, UpdateMaterialDto } from './dto/material.dto';
 
 @Injectable()
 export class MaterialesService {
-  constructor(
-    @InjectRepository(Material)
-    private readonly materialRepository: Repository<Material>,
-  ) { }
+    constructor(
+        @InjectRepository(Material)
+        private readonly materialRepository: Repository<Material>,
+    ) { }
 
-  create(createMaterialDto: CreateMaterialDto) {
-    const material = this.materialRepository.create(createMaterialDto);
-    return this.materialRepository.save(material);
-  }
+    create(createMaterialDto: CreateMaterialDto) {
+        const material = this.materialRepository.create(createMaterialDto);
+        return this.materialRepository.save(material);
+    }
 
-  findAll() {
-    console.log('Service Materials findAll');
-    return this.materialRepository.find({ order: { nombre: 'ASC' } });
-  }
+    findAll() {
+        console.log('Service Materials findAll');
+        return this.materialRepository.find({ order: { nombre: 'ASC' } });
+    }
 
-  async findOne(id: string) {
-    const material = await this.materialRepository.findOneBy({ id });
-    if (!material) throw new NotFoundException(`Material con ID ${id} no encontrado`);
-    return material;
-  }
+    async findOne(id: string) {
+        const material = await this.materialRepository.findOneBy({ id });
+        if (!material) throw new NotFoundException(`Material con ID ${id} no encontrado`);
+        return material;
+    }
 
-  async update(id: string, updateMaterialDto: UpdateMaterialDto) {
-    console.log('Service Materials update');
-    console.log(updateMaterialDto);
-    const material = await this.findOne(id);
-    this.materialRepository.merge(material, updateMaterialDto);
-    console.log(material);
-    return this.materialRepository.save(material);
-  }
+    async update(id: string, updateMaterialDto: UpdateMaterialDto) {
+        console.log('Service Materials update');
+        console.log(updateMaterialDto);
+        const material = await this.findOne(id);
+        this.materialRepository.merge(material, updateMaterialDto);
+        console.log(material);
+        return this.materialRepository.save(material);
+    }
 
-  async remove(id: string) {
-    const material = await this.findOne(id);
-    await this.materialRepository.remove(material);
-    return { deleted: true };
-  }
+    async remove(id: string) {
+        const material = await this.findOne(id);
+        await this.materialRepository.remove(material);
+        return { deleted: true };
+    }
 }
